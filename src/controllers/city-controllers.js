@@ -32,7 +32,7 @@ const destroy= async (req,res)=>{
          data:response,
          success:true,
          message:"Succesfully deleted a city",
-         err:{error}
+         err:{}
       });
        }
     catch(error){
@@ -53,7 +53,7 @@ const get= async (req,res)=>{
          data:response,
          success:true,
          message:"Succesfully fetched a city",
-         err:{error}
+         err:{}
       });
 
      }
@@ -75,7 +75,7 @@ const update= async (req,res)=>{
          data:response,
          success:true,
          message:"Succesfully updated a city",
-         err:{error}
+         err:{}
       });
 
       }

@@ -50,7 +50,7 @@ class CityRepository{
     }
     async getCity(city_id){
        try{
-        const city=await City.findByPK(city_id);
+        const city=await City.findByPk(city_id);
         return city;
 
        }
@@ -61,7 +61,7 @@ class CityRepository{
     }
 }
 
-module.export= CityRepository;
+module.exports= CityRepository;
 
 
 
@@ -86,4 +86,3 @@ module.export= CityRepository;
 
 
 
-module.exports = CityRepository;
