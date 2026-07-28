@@ -8,14 +8,26 @@ const setupAndstartserver =async ()=>{
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use('/api',apiRoutes);
-
-
+const {City,Airport}=require('./models/index')
+const db= require('./models/index')
+const sequelize =require("sequelize")
 
     
-    app.listen(PORT ,()=>{
+    app.listen(PORT , async ()=>{
       console.log(`Server started at ${PORT}`)
+      if(process.env.SHOW_DB){
+        db.sequelize.sync({alter:true});
+      }
       
-      
+      // const city= await City.findOne({
+        // where:{
+        //  id:3
+        // }
+      // })
+      // const airports=await city.getAirports();
+      // city
+      // console.log(airports,city);
+      // 
     
     }
 
