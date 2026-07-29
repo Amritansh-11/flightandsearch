@@ -1,4 +1,4 @@
-const {City}=require('../models/index');
+const {City,Airport}=require('../models/index');
 const {Op}=require('sequelize')
 class CityRepository{
     async createCity({name}){
@@ -81,6 +81,42 @@ class CityRepository{
 
         }
     }
+    
+   async createMultipleCities(data) {
+    try {
+        const cities = await City.bulkCreate(data);
+        return cities;
+    }
+    catch (error) {
+        console.log("Something went wrong on the repo layer");
+        throw { error };
+    }
+} 
+    
+async getAirportsByCity(city_id) {
+    try {
+        const city = await City.findByPk(city_id, {
+            include: [
+                {
+                    model: Airport
+                }
+            ]
+        });
+
+        return city;
+    }
+    catch (error) {
+        console.log("Something went wrong on the repo layer");
+        throw { error };
+    }
+}
+    
+    
+    
+    
+    
+    
+
 }
 
 module.exports= CityRepository;

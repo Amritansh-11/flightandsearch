@@ -1,7 +1,11 @@
-const express=require('express');
-const router= express.Router();
+const express = require('express');
 
-const V1apiroutes= require('./v1/index')
-router.use('/v1',V1apiroutes);
+const router = express.Router();
 
-module.exports=router
+const cityRoutes = require('./v1/city-routes');
+const airportRoutes = require('./v1/airport-routes');
+
+router.use('/v1/cities', cityRoutes);
+router.use('/v1/airports', airportRoutes);
+
+module.exports = router;
