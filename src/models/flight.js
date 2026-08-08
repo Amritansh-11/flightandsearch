@@ -1,26 +1,40 @@
 'use strict';
+
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Flight extends Model {
+
     static associate(models) {
+
+      // Flight belongs to an Airplane
       Flight.belongsTo(models.Airplane, {
-        foreignKey: 'airplaneId'
+        foreignKey: 'airplaneId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       });
 
+      // Departure Airport
       Flight.belongsTo(models.Airport, {
         foreignKey: 'departureAirportId',
-        as: 'departureAirport'
+        as: 'departureAirport',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       });
 
+      // Arrival Airport
       Flight.belongsTo(models.Airport, {
         foreignKey: 'arrivalAirportId',
-        as: 'arrivalAirport'
+        as: 'arrivalAirport',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       });
+
     }
   }
 
   Flight.init({
+
     flightNumber: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,17 +65,35 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Airports',
         key: 'id'
+      },
+      validate: {
+        notSameAirport(value) {
+          if (value === this.departureAirportId) {
+            throw new Error(
+              "Departure Airport and Arrival Airport cannot be the same."
+            );
+          }
+        }
       }
-    },
-
-    arrivalTime: {
-      type: DataTypes.DATE,
-      allowNull: false
     },
 
     departureTime: {
       type: DataTypes.DATE,
       allowNull: false
+    },
+
+    arrivalTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        arrivalAfterDeparture(value) {
+          if (new Date(value) <= new Date(this.departureTime)) {
+            throw new Error(
+              "Arrival time must be after departure time."
+            );
+          }
+        }
+      }
     },
 
     price: {
@@ -87,7 +119,7 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     sequelize,
-    modelName: 'Flight',
+    modelName: 'Flight'
   });
 
   return Flight;

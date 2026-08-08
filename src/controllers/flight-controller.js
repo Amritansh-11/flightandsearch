@@ -46,6 +46,29 @@ const destroy = async (req, res) => {
 
     }
 };
+const searchFlights = async (req, res) => {
+    try {
+
+        const flights = await flightService.searchFlights(req.query);
+
+        return res.status(200).json({
+            data: flights,
+            success: true,
+            message: "Successfully searched Flights",
+            err: {}
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: "Not able to search Flights",
+            err: error
+        });
+
+    }
+};
 
 const get = async (req, res) => {
 
@@ -130,5 +153,6 @@ module.exports = {
     destroy,
     get,
     update,
-    getAll
+    getAll,
+    searchFlights
 };

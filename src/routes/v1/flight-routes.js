@@ -14,4 +14,6 @@ router.patch('/flight/:id', FlightController.update);
 
 router.get('/flight', FlightController.getAll);
 
+router.get('/search', FlightController.searchFlights);
+
 module.exports = router;

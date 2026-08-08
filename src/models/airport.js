@@ -9,13 +9,33 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    
       // define association here
-      this.belongsTo(models.City,{
-        foreignKey:'cityId',
-        onDelete:'CASCADE'
-      }); 
-    }
+      
+      static associate(models) {
+
+  // Airport belongs to a City
+  this.belongsTo(models.City, {
+    foreignKey: 'cityId',
+    onDelete: 'CASCADE'
+  });
+
+  // Flights departing from this airport
+  this.hasMany(models.Flight, {
+    foreignKey: 'departureAirportId',
+    as: 'DepartingFlights'
+  });
+
+  // Flights arriving at this airport
+  this.hasMany(models.Flight, {
+    foreignKey: 'arrivalAirportId',
+    as: 'ArrivingFlights'
+  });
+
+}
+      
+      
+    
   }
   Airport.init({
     name: {type:DataTypes.STRING,
